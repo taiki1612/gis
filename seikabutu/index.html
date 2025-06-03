@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Peach 空港マップ（利用者数別サイズ）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js"></script>
+  <script>
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+      center: [135, 35],
+      zoom: 4
+    });
+
+    map.on('load', () => {
+      fetch('peach_airports_with_passengers.geojson')
+        .then(response => response.json())
+        .then(data => {
+          map.addSource('peach-airports', {
+            type: 'geojson',
+            data: data
+          });
+
+          map.addLayer({
+            id: 'airport-pins',
+            type: 'circle',
+            source: 'peach-airports',
+            paint: {
+              'circle-radius': [
+                'interpolate',
+                ['linear'],
+                ['get', 'passengers'],
+                500000, 4,
+                20000000, 20
+              ],
+              'circle-color': '#FF00AA',
+              'circle-opacity': 0.7
+            }
+          });
+
+          // ポップアップ表示（空港名と利用者数）
+          map.on('click', 'airport-pins', (e) => {
+            const props = e.features[0].properties;
+            new maplibregl.Popup()
+              .setLngLat(e.lngLat)
+              .setHTML(`<strong>${props.name}</strong><br>利用者数: ${parseInt(props.passengers).toLocaleString()}人`)
+              .addTo(map);
+          });
+
+          map.on('mouseenter', 'airport-pins', () => {
+            map.getCanvas().style.cursor = 'pointer';
+          });
+
+          map.on('mouseleave', 'airport-pins', () => {
+            map.getCanvas().style.cursor = '';
+          });
+        });
+    });
+  </script>
+</body>
+</html>

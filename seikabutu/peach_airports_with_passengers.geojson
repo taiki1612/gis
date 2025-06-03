@@ -1,0 +1,350 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "大阪（関西）",
+        "operator": "peach",
+        "passengers": 6932945.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.23639926802835,
+          34.432741170184734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "女満別",
+        "operator": "peach",
+        "passengers": 779698.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.15853105189,
+          43.881792399001455
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "釧路",
+        "operator": "peach",
+        "passengers": 727866.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          144.19619733924876,
+          43.04561840377592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "札幌（新千歳）",
+        "operator": "peach",
+        "passengers": 19690046.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          141.6865588518747,
+          42.77935431830396
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "仙台",
+        "operator": "peach",
+        "passengers": 3155338.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.91706025153215,
+          38.14012696693995
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "東京（成田）",
+        "operator": "peach",
+        "passengers": 7658152.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          140.38387504777077,
+          35.771368912481705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "東京（羽田）",
+        "operator": "peach",
+        "passengers": 78398596.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          139.77835881313086,
+          35.55033581885314
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "名古屋（中部）",
+        "operator": "peach",
+        "passengers": 5939873.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          136.81087615777406,
+          34.85761163334554
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "福岡",
+        "operator": "peach",
+        "passengers": 17675048.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.44927873645165,
+          33.585758036177204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "長崎",
+        "operator": "peach",
+        "passengers": 2879088.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          129.91695616583314,
+          32.915150032334914
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "宮崎",
+        "operator": "peach",
+        "passengers": 3001006.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          131.4483874676455,
+          31.876433644566475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "鹿児島",
+        "operator": "peach",
+        "passengers": 5462776.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          130.72025919647805,
+          31.800992822334358
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "奄美",
+        "operator": "peach",
+        "passengers": 864265.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          129.71137414055661,
+          28.430592333956398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "沖縄（那覇）",
+        "operator": "peach",
+        "passengers": 17389715.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.65229213222655,
+          26.206767501722695
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "石垣",
+        "operator": "peach",
+        "passengers": 2611673.0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          124.24573190977782,
+          24.396075157957693
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ソウル（仁川）",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.44218688656245,
+          37.4591627541685
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "ソウル（金浦）",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.80134965433757,
+          37.56569985321338
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "台北（桃園）",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.23106608952027,
+          25.081003079104327
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "高雄",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          120.34724022692224,
+          22.575062067495324
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "香港",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          113.91382451651558,
+          22.313913075719633
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "上海",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.80824080995372,
+          31.144545888237097
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "バンコク",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          100.74700947799846,
+          13.682706683951595
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "シンガポール",
+        "operator": "peach",
+        "passengers": 0
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          103.98996290197975,
+          1.359504368835558
+        ]
+      }
+    }
+  ]
+}
