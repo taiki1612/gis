@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [139.7671, 35.6812]
+      },
+      "properties": {
+        "name": "東京駅"
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>US Bases in the Middle East</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: {
+        version: 8,
+        sources: {
+          'google-satellite-hybrid': {
+            type: "raster",
+            tiles: [
+              "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+            ],
+            tileSize: 256,
+            attribution: "Map data &copy; <a href='https://www.google.com/intl/en_us/help/terms_maps/' target='_blank'>Google</a>",
+            maxzoom: 21
+          }
+        },
+        layers: [
+          {
+            id: "google-satellite-hybrid-layer",
+            type: "raster",
+            source: "google-satellite-hybrid"
+          }
+        ]
+      },
+      center: [45.0, 30.0], // 中東中心
+      zoom: 4
+    });
+
+    // GeoJSONを読み込む
+    map.on('load', () => {
+      map.addSource('us-bases', {
+        type: 'geojson',
+        data: 'map.geojson' // ←アップロードしたGeoJSONファイルのパス
+      });
+
+      map.addLayer({
+        id: 'us-bases-layer',
+        type: 'circle',
+        source: 'us-bases',
+        paint: {
+          'circle-radius': 6,
+          'circle-color': '#FF4136',
+          'circle-stroke-width': 1,
+          'circle-stroke-color': '#ffffff'
+        }
+      });
+
+      // ポップアップ設定（name, country, notesが含まれる前提）
+      map.on('click', 'us-bases-layer', (e) => {
+        const props = e.features[0].properties;
+        new maplibregl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(`
+            <strong>${props.name || "Unnamed Base"}</strong><br>
+            Country: ${props.country || "Unknown"}<br>
+            Notes: ${props.notes || "N/A"}
+          `)
+          .addTo(map);
+      });
+
+      map.on('mouseenter', 'us-bases-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+      });
+      map.on('mouseleave', 'us-bases-layer', () => {
+        map.getCanvas().style.cursor = '';
+      });
+    });
+  </script>
+</body>
+</html>
