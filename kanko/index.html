@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>ランダム観光地（範囲選択）マップ</title>
+  <title>どこかに行こうマップ</title>
   <link href="https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css" rel="stylesheet" />
   <link href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.2/mapbox-gl-draw.css" rel="stylesheet" />
   <style>
@@ -22,6 +22,43 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       cursor: pointer;
+    }
+    #result-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease;
+    }
+    .result-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      animation: pop 0.5s ease;
+      max-width: 80%;
+    }
+    .result-card h1 {
+      font-size: 2rem;
+      margin: 10px 0;
+    }
+    .result-card button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
@@ -43,24 +80,26 @@
       style: {
         version: 8,
         sources: {
-          'google-satellite-hybrid': {
-            type: "raster",
+          'google-maps-standard': {
+            type: 'raster',
             tiles: [
-              "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+              'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}'
             ],
             tileSize: 256,
-            attribution: "Map data &copy; <a href='https://www.google.com/intl/en_us/help/terms_maps/' target='_blank'>Google</a>",
+            attribution: 'Map data &copy; <a href="https://www.google.com/intl/en_us/help/terms_maps/" target="_blank">Google</a>',
             maxzoom: 21
           }
         },
-        layers: [{
-          id: "google-satellite-hybrid-layer",
-          type: "raster",
-          source: "google-satellite-hybrid"
-        }]
+        layers: [
+          {
+            id: 'google-maps-standard-layer',
+            type: 'raster',
+            source: 'google-maps-standard'
+          }
+        ]
       },
-      center: [139.7671, 35.6812],
-      zoom: 5
+      center: [137.5, 38.0],
+      zoom: 4.2
     });
 
     const draw = new MapboxDraw({
@@ -75,50 +114,63 @@
     let allFeatures = [];
 
     map.on('load', () => {
-      // map (1).geojson 読み込み
+      // GeoJSON 1 読み込み
       fetch('map (1).geojson')
         .then(res => res.json())
         .then(data => {
-          map.addSource('kanko-geojson', {
-            type: 'geojson',
-            data: data
-          });
+          map.addSource('kanko-geojson', { type: 'geojson', data });
           map.addLayer({
             id: 'kanko-layer',
             type: 'circle',
             source: 'kanko-geojson',
             paint: {
-              'circle-radius': 6,
-              'circle-color': '#FF5722',
-              'circle-stroke-width': 2,
-              'circle-stroke-color': '#fff'
+              'circle-radius': 8,
+              'circle-color': '#fff',
+              'circle-stroke-width': 3,
+              'circle-stroke-color': '#000'
             }
           });
           allFeatures.push(...data.features);
           addPopupOnHover('kanko-layer');
         });
 
-      // map (3).geojson 読み込み
+      // GeoJSON 3 読み込み
       fetch('map (3).geojson')
         .then(res => res.json())
         .then(data => {
-          map.addSource('kanko-geojson-3', {
-            type: 'geojson',
-            data: data
-          });
+          map.addSource('kanko-geojson-3', { type: 'geojson', data });
           map.addLayer({
             id: 'kanko-layer-3',
             type: 'circle',
             source: 'kanko-geojson-3',
             paint: {
               'circle-radius': 8,
-              'circle-color': '#2196F3',
-              'circle-stroke-width': 2,
-              'circle-stroke-color': '#fff'
+              'circle-color': '#fff',
+              'circle-stroke-width': 3,
+              'circle-stroke-color': '#000'
             }
           });
           allFeatures.push(...data.features);
           addPopupOnHover('kanko-layer-3');
+        });
+      // GeoJSON 4 読み込み
+      fetch('map (4).geojson')
+        .then(res => res.json())
+        .then(data => {
+          map.addSource('kanko-geojson-4', { type: 'geojson', data });
+          map.addLayer({
+            id: 'kanko-layer-4',
+            type: 'circle',
+            source: 'kanko-geojson-4',
+            paint: {
+              'circle-radius': 8,
+              'circle-color': '#fff',
+              'circle-stroke-width': 3,
+              'circle-stroke-color': '#000'
+            }
+          });
+          allFeatures.push(...data.features);
+          addPopupOnHover('kanko-layer-4', true);
         });
     });
 
@@ -128,9 +180,13 @@
         map.getCanvas().style.cursor = 'pointer';
         const feature = e.features[0];
         const coords = feature.geometry.coordinates;
-        const name = feature.properties.name || '';
-        const address = feature.properties.adress || '';
-        popup.setLngLat(coords).setHTML(`<h3>${name}</h3><p>${address}</p>`).addTo(map);
+        let html = '';
+        if (feature.properties.explanation) {
+          html = `<h3>${feature.properties.name || ''}</h3><p>${feature.properties.explanation}</p>`;
+        } else {
+          html = `<h3>${feature.properties.name || ''}</h3><p>${feature.properties.adress || ''}</p>`;
+        }
+        popup.setLngLat(coords).setHTML(html).addTo(map);
       });
       map.on('mouseleave', layerId, () => {
         map.getCanvas().style.cursor = '';
@@ -141,7 +197,7 @@
     function selectRandomSpot() {
       if (allFeatures.length === 0) return;
       const spot = allFeatures[Math.floor(Math.random() * allFeatures.length)];
-      showPopupAt(spot);
+      showRandomResultAnimation(spot);
     }
 
     function selectRandomSpotWithinPolygon() {
@@ -161,20 +217,54 @@
       }
 
       const spot = pointsInPolygon.features[Math.floor(Math.random() * pointsInPolygon.features.length)];
-      showPopupAt(spot);
+      showRandomResultAnimation(spot);
     }
 
-    function showPopupAt(spot) {
-      const coords = spot.geometry.coordinates;
-      const name = spot.properties.name || '';
-      const address = spot.properties.adress || '';
-      map.flyTo({ center: coords, zoom: 14 });
-      new maplibregl.Popup()
-        .setLngLat(coords)
-        .setHTML(`<h3>${name}</h3><p>${address}</p>`)
-        .addTo(map);
+    function showRandomResultAnimation(spot) {
+      map.flyTo({
+        center: spot.geometry.coordinates,
+        zoom: 14,
+        essential: true
+      });
+
+      map.once('moveend', () => {
+        new maplibregl.Popup()
+          .setLngLat(spot.geometry.coordinates)
+          .setHTML(`<h3>${spot.properties.name || 'Unknown'}</h3><p>${spot.properties.adress || ''}</p>`)
+          .addTo(map);
+
+        const lat = spot.geometry.coordinates[1];
+        const lng = spot.geometry.coordinates[0];
+        const destination = encodeURIComponent(`${lat},${lng}`);
+        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=transit`;
+
+        const overlay = document.createElement('div');
+        overlay.id = 'result-overlay';
+        overlay.innerHTML = `
+          <div class="result-card">
+            <h2>あなたの旅先は…</h2>
+            <h1>${spot.properties.name || 'Unknown'}</h1>
+            <p>${spot.properties.adress || ''}</p>
+            <button onclick="window.open('${googleMapsUrl}', '_blank')">今から行く！</button>
+            <br><br>
+            <button onclick="tryAgain()">もう一度引く！</button>
+            <button onclick="closeResult()">閉じる</button>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+      });
+    }
+
+    function tryAgain() {
+      closeResult();
+      const newSpot = allFeatures[Math.floor(Math.random() * allFeatures.length)];
+      showRandomResultAnimation(newSpot);
+    }
+
+    function closeResult() {
+      const overlay = document.getElementById('result-overlay');
+      if (overlay) overlay.remove();
     }
   </script>
 </body>
 </html>
-
